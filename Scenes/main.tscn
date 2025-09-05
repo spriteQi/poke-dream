@@ -2,5 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dm3wd50t7l3ip" path="res://Scripts/Mount/Main/main.gd" id="1_jjgbg"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("start_btn")]
 script = ExtResource("1_jjgbg")
+start_btn = NodePath("StartBtn")
+
+[node name="StartBtn" type="Button" parent="."]
+offset_right = 80.0
+offset_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Start"
+
+[connection signal="pressed" from="StartBtn" to="." method="_on_button_pressed"]
