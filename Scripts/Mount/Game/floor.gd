@@ -1,41 +1,19 @@
-extends TileMapLayer
+# 渲染草地节点，继承自MapRender包含一些TileMapLayer动态加载的公共方法
+extends MapRender
 
 func init(test: String) -> void:
 	print(test)
-	var tiles: TileSet = TileSet.new()
-	var source_id = add_source(tiles, "res://Assets/Tile/Map/1.png")
-	set_tile_set(tiles)
-	# 填充地图
-	fill_map_with_tiles(source_id)
-
-func add_source(tiles: TileSet, image_path: String):
-	# 加载纹理
-	var texture: Resource = load(image_path)
-	if texture == null:
-		print("错误: 无法加载纹理 ", image_path)
-		return
-	# 创建新的图块源
-	var source_id = tiles.get_next_source_id()
-	var tile_map_source = TileSetAtlasSource.new()
-	# 设置纹理
-	tile_map_source.texture = texture
-	var tile_pixel = Init.TILE_PIXEL
-	tile_map_source.texture_region_size = Vector2i(tile_pixel, tile_pixel)  # TileSet
-	tiles.tile_size = Vector2i(tile_pixel, tile_pixel)
-	# 添加到 TileSet
-	tiles.add_source(tile_map_source, source_id)
-	# 创建多个瓦片
-	var texture_size = texture.get_size()
-	var tiles_x: int = texture_size.x / tile_pixel
-	var tiles_y: int = texture_size.y / tile_pixel
-	print("纹理尺寸: ", texture_size, " 瓦片大小: ", tile_pixel)
-	print("可创建瓦片数量: ", tiles_x, " x ", tiles_y)
-	for x in range(tiles_x):
-		for y in range(tiles_y):
-			# 只需要创建瓦片，纹理区域会自动设置
-			tile_map_source.create_tile(Vector2i(x, y))
-	print("成功创建 ", tiles_x * tiles_y, " 个瓦片，源ID: ", source_id)
-	return source_id
+	clear()
+	draw_tile(Vector2(0,0),1,1)
+	#var tiles: TileSet = TileSet.new()
+	#var source_id = load_source(1)
+	#if source_id >= 0:
+		#set_tile_set(tiles)
+		#set_tile_set(tiles)
+		## 填充地图
+		#fill_map_with_tiles(source_id)
+	#else:
+		#pass	# TODO:UI显示错误提示
 
 func fill_map_with_tiles(source_id: int):
 	# 清除当前图层
@@ -51,6 +29,6 @@ func fill_map_with_tiles(source_id: int):
 		# 填充地图
 		for x in range(tiles_x):
 			for y in range(tiles_y):
-				set_cell(Vector2i(x, y), source_id, Vector2i(x % 4, 0))
+				set_cell(Vector2i(x, y), source_id, Vector2i(x % tiles_x, y % tiles_y))
 	else:
-		print("错误: 找不到源ID ", source_id)
+		printerr("错误: 找不到源ID", source_id)
