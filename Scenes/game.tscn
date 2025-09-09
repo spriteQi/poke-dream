@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://gtknlq28eyc0"]
+[gd_scene load_steps=5 format=4 uid="uid://gtknlq28eyc0"]
 
 [ext_resource type="Script" uid="uid://b17nxd2sc5pns" path="res://Scripts/Mount/Game/game.gd" id="1_ebmjs"]
+[ext_resource type="Script" uid="uid://dg523dkmr3hrj" path="res://Scripts/Mount/Game/self_player.gd" id="2_3dryh"]
 [ext_resource type="Script" uid="uid://d2odlk3ro2igt" path="res://Scripts/Mount/Game/floor.gd" id="2_qxrlw"]
 [ext_resource type="Script" uid="uid://buohjsornid0" path="res://Scripts/Mount/Game/lawn.gd" id="3_wrm1d"]
 
@@ -8,6 +9,9 @@
 script = ExtResource("1_ebmjs")
 
 [node name="SelfPlayer" type="AnimatedSprite2D" parent="."]
+script = ExtResource("2_3dryh")
+
+[node name="CameraMain" type="Camera2D" parent="SelfPlayer"]
 
 [node name="Floor" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAMAAAAAAAMAAAAAAAQAAAAAAAQAAAAAAAUAAAAAAAUAAAAAAAYAAAAAAAYAAAAAAAcAAAAAAAcAAAABAAAAAAABAAAAAAABAAEAAAABAAEAAAABAAIAAAABAAIAAAABAAMAAAABAAMAAAABAAQAAAABAAQAAAABAAUAAAABAAUAAAABAAYAAAABAAYAAAABAAcAAAABAAcAAAACAAAAAAACAAAAAAACAAEAAAACAAEAAAACAAIAAAACAAIAAAACAAMAAAACAAMAAAACAAQAAAACAAQAAAACAAUAAAACAAUAAAACAAYAAAACAAYAAAACAAcAAAACAAcAAAADAAAAAAADAAAAAAADAAEAAAADAAEAAAADAAIAAAADAAIAAAADAAMAAAADAAMAAAADAAQAAAADAAQAAAADAAUAAAADAAUAAAADAAYAAAADAAYAAAADAAcAAAADAAcAAAAEAAAAAAAEAAAAAAAEAAEAAAAEAAEAAAAEAAIAAAAEAAIAAAAEAAMAAAAEAAMAAAAEAAQAAAAEAAQAAAAEAAUAAAAEAAUAAAAEAAYAAAAEAAYAAAAEAAcAAAAEAAcAAAA=")

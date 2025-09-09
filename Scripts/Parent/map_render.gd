@@ -2,7 +2,6 @@
 extends TileMapLayer
 class_name MapRender
 
-const IMAGE_PATH = "res://Assets/Tile/Map/"	# 地图tile的资源路径
 static var tiles: TileSet = TileSet.new()	# 设置为静态可以让所有的渲染图层共享同一个TileSet
 static var source_temp = Dictionary()	# ｛source_code: ｛source_id， x_len, y_len｝"｝
 
@@ -11,18 +10,18 @@ func _init() -> void:
 
 # 加载资源，子类不需要直接调用该方法，会由draw_tile方法调用
 # source_code是资源的文件编号（文件名），加载后会生成source_id
-func load_source(source_code: int) -> int:
+func load_source(source_code: int, source_type: String = "png") -> int:
 	# 如果缓存中有则直接返回不再加载
 	if source_code in source_temp:
 		return source_temp[source_code]["source_id"]
 	# 加载纹理
-	var texture: Resource = load(IMAGE_PATH + str(source_code) + ".png")
+	var texture: Resource = load(Init.MAP_IMAGE_PATH + str(source_code) + "." + source_type)
 	if texture == null:
 		printerr("错误: 未读取到纹理:", source_code)
 		return -1
 	# 处理纹理底色（将底色视为透明），如果你的资源文件已经处理好了透明则不需要
 	var image: Image = texture.get_image()
-	transparent_conversion(image, Color(0, 0, 0))  # 将黑色设为透明
+	Util.transparent_conversion(image, Color(0, 0, 0))	# 将黑色设为透明
 	texture = ImageTexture.create_from_image(image)
 	# 创建新的图块源
 	var source_id = tiles.get_next_source_id()
@@ -30,7 +29,7 @@ func load_source(source_code: int) -> int:
 	source_temp[source_code] = {"source_id": source_id}	# 缓存信息
 	# 设置纹理
 	tile_map_source.texture = texture
-	var tile_pixel = Init.TILE_PIXEL
+	var tile_pixel = Init.MAP_TILE_PIXEL
 	tile_map_source.texture_region_size = Vector2i(tile_pixel, tile_pixel)  # 块大小，要与下一行大小保持一致
 	tiles.tile_size = Vector2i(tile_pixel, tile_pixel)
 	# 添加到 TileSet
@@ -65,18 +64,3 @@ func draw_tile(draw_pos_x: int, draw_pos_y: int, source_code: int, tile_serial: 
 		set_cell(draw_pos, source_id, Vector2i(tile_pos_y, tile_pos_x))	# 参数三atlas_coords是Vector2i(水平, 垂直)
 	else:
 		printerr("错误: 找不到源ID", source_id)
-
-# 将纹理的指定颜色视为底色，转换成透明色
-func transparent_conversion(image: Image, transparent_color: Color) -> Image:
-	# 检查并更改图像格式为RGBA8以支持alpha通道
-	if image.get_format() != Image.FORMAT_RGBA8:
-		image.convert(Image.FORMAT_RGBA8)
-	image.decompress()
-	# 遍历像素转换指定transparent_color为透明
-	for x in range(image.get_width()):
-		for y in range(image.get_height()):
-			var color = image.get_pixel(x, y)
-			if color.is_equal_approx(transparent_color):
-				color.a = 0
-				image.set_pixel(x, y, color)
-	return image

@@ -1,13 +1,17 @@
 # 这是一个自动加载脚本，本项目并非单例模式，该脚本仅用于初始化和设置一些全局变量
 extends Node
 
-const TILE_PIXEL: int = 32
-const WIDTH_BLOCK: int = 15
-const HEIGHT_BLOCK: int = 11
+const MAP_TILE_PIXEL: int = 32	# 地图tile单个块长宽像素（地图块只能是正方形的）
+const WIDTH_BLOCK: int = 15	# 单屏内宽的块数量（应该为奇数）
+const HEIGHT_BLOCK: int = 11	# 单屏内高的块数量（应该为奇数）
+const MAP_IMAGE_PATH = "res://Assets/Tile/Map/"	# 地图资源文件的路径
+const PLAYER_IMAGE_PATH = "res://Assets/Tile/Player/"	# player资源文件的路径
+const PLAYER_FRAME_SIZE: Vector2 = Vector2(48, 64)	# player单个精灵帧的尺寸
+
 
 func _ready() -> void:
 	# 根据长宽的块大小和单屏内块数量，设置窗口大小
-	set_window_size(TILE_PIXEL * WIDTH_BLOCK, TILE_PIXEL * HEIGHT_BLOCK)
+	set_window_size(MAP_TILE_PIXEL * WIDTH_BLOCK, MAP_TILE_PIXEL * HEIGHT_BLOCK)
 
 # 修改窗口大小
 func set_window_size(width: int, height: int):
