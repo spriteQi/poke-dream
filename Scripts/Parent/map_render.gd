@@ -3,11 +3,11 @@ extends TileMapLayer
 class_name MapRender
 
 const IMAGE_PATH = "res://Assets/Tile/Map/"	# 地图tile的资源路径
-static var tiles: TileSet
+static var tiles: TileSet = TileSet.new()	# 设置为静态可以让所有的渲染图层共享同一个TileSet
 static var source_temp = Dictionary()	# ｛source_code: ｛source_id， x_len, y_len｝"｝
 
 func _init() -> void:
-	set_tile_set(tiles)
+	set_tile_set(tiles)	# TileMapLayer节点TileSet属性的setter方法
 
 # 加载资源，子类不需要直接调用该方法，会由draw_tile方法调用
 # source_code是资源的文件编号（文件名），加载后会生成source_id
@@ -18,13 +18,16 @@ func load_source(source_code: int) -> int:
 	# 加载纹理
 	var texture: Resource = load(IMAGE_PATH + str(source_code) + ".png")
 	if texture == null:
-		printerr("错误: 未读取到纹理", source_code)
+		printerr("错误: 未读取到纹理:", source_code)
 		return -1
+	# 处理纹理底色（将底色视为透明），如果你的资源文件已经处理好了透明则不需要
+	var image: Image = texture.get_image()
+	transparent_conversion(image, Color(0, 0, 0))  # 将黑色设为透明
+	texture = ImageTexture.create_from_image(image)
 	# 创建新的图块源
-	tiles = TileSet.new()
 	var source_id = tiles.get_next_source_id()
 	var tile_map_source = TileSetAtlasSource.new()
-	source_temp[source_code]["source_id"] = source_id	# 缓存信息
+	source_temp[source_code] = {"source_id": source_id}	# 缓存信息
 	# 设置纹理
 	tile_map_source.texture = texture
 	var tile_pixel = Init.TILE_PIXEL
@@ -47,14 +50,33 @@ func load_source(source_code: int) -> int:
 	print("成功创建 ", tiles_x * tiles_y, " 个瓦片，源ID: ", source_id)
 	return source_id
 
-# 绘制tile方法，会调用load_source加载资源，tile_serial为tile块序号，从左至右从上至下，从0开始
-func draw_tile(draw_pos: Vector2, source_code: int, tile_serial: int) -> void:
+# 绘制tile方法，会调用load_source加载资源
+# tile_serial为tile块序号，从左至右从上至下，从0开始
+func draw_tile(draw_pos_x: int, draw_pos_y: int, source_code: int, tile_serial: int) -> void:
 	var source_id = load_source(source_code)
-	var source = tile_set.get_source(source_id) as TileSetAtlasSource
+	var source = tiles.get_source(source_id) as TileSetAtlasSource
 	if source:
-		# 绘制对应tile，这里没有检查是否越界，但是越界应该不会报错
-		var tile_pos_y: int = int(tile_serial % source_temp[source_code]["x_len"])
-		var tile_pos_x: int = int(tile_serial / source_temp[source_code]["x_len"])
-		set_cell(Vector2i(draw_pos), source_id, Vector2i(tile_pos_x, tile_pos_y))
+		# 绘制对应tile，这里没有检查是否越界，因为越界不会报错
+		var x_len = source_temp[source_code]["x_len"]
+		var tile_pos_y: int = int(tile_serial % x_len)
+		var tile_pos_x: int = int(tile_serial / x_len)
+		#print("tile_pos_x:", tile_pos_x, " tile_pos_y:", tile_pos_y)
+		var draw_pos = Vector2i(draw_pos_x, draw_pos_y)
+		set_cell(draw_pos, source_id, Vector2i(tile_pos_y, tile_pos_x))	# 参数三atlas_coords是Vector2i(水平, 垂直)
 	else:
 		printerr("错误: 找不到源ID", source_id)
+
+# 将纹理的指定颜色视为底色，转换成透明色
+func transparent_conversion(image: Image, transparent_color: Color) -> Image:
+	# 检查并更改图像格式为RGBA8以支持alpha通道
+	if image.get_format() != Image.FORMAT_RGBA8:
+		image.convert(Image.FORMAT_RGBA8)
+	image.decompress()
+	# 遍历像素转换指定transparent_color为透明
+	for x in range(image.get_width()):
+		for y in range(image.get_height()):
+			var color = image.get_pixel(x, y)
+			if color.is_equal_approx(transparent_color):
+				color.a = 0
+				image.set_pixel(x, y, color)
+	return image

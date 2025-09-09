@@ -6,6 +6,8 @@ signal init_floor
 #signal init_build
 
 func _ready() -> void:
-	init_floor.connect($Floor.init)
-	init_floor.emit("6")
+	init_floor.connect($Floor.draw_layer)
+	init_floor.connect($Lawn.draw_layer)
+	init_floor.emit("-")
+	
 	
