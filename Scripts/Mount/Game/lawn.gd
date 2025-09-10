@@ -4,5 +4,6 @@ extends MapRender
 func draw_layer(test: String) -> void:
 	print(test)
 	clear()
-
-	draw_tile(0, 0, 1, 9)
+	for x in range(5):
+		for y in range(5):
+			draw_tile(x, y, 1, 9)

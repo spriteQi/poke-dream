@@ -3,7 +3,7 @@ extends Node
 class_name Util
 
 # 将纹理的指定颜色视为底色，转换成透明色
-static func transparent_conversion(image: Image, transparent_color: Color) -> Image:
+static func transparent_conversion_image(image: Image, transparent_color: Color) -> Image:
 	# 检查并更改图像格式为RGBA8以支持alpha通道
 	if image.get_format() != Image.FORMAT_RGBA8:
 		image.convert(Image.FORMAT_RGBA8)
@@ -16,3 +16,9 @@ static func transparent_conversion(image: Image, transparent_color: Color) -> Im
 				color.a = 0
 				image.set_pixel(x, y, color)
 	return image
+
+# 重载transparent_conversion_image
+static func transparent_conversion_texture(texture: Texture, transparent_color: Color) -> ImageTexture:
+	var image: Image = texture.get_image()
+	transparent_conversion_image(image, transparent_color)
+	return ImageTexture.create_from_image(image)
