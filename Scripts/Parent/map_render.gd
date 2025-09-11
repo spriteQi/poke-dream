@@ -22,7 +22,8 @@ static func load_source(source_code, source_type: String = "png") -> int:
 		printerr("错误: 未读取到map纹理:", source_code)
 		return -1
 	# 处理纹理底色（将底色视为透明），如果你的资源文件已经处理好了透明则不需要
-	texture = Util.transparent_conversion_texture(texture, Color(0, 0, 0))	# 将黑色设为透明
+	if not Init.transparent_color.is_empty():
+		texture = Util.transparent_conversion_texture(texture, Init.transparent_color)	# 将黑色设为透明
 	# 创建新的图块源
 	var source_id = tiles.get_next_source_id()
 	var tile_map_source = TileSetAtlasSource.new()

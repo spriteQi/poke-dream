@@ -7,7 +7,7 @@ static func node_center(node: Node) -> void:
 	node.position = (Vector2(node.get_window().size) - node.size) / 2
 
 # 将纹理的指定颜色视为底色，转换成透明色
-static func transparent_conversion_image(image: Image, transparent_color: Color) -> Image:
+static func transparent_conversion_image(image: Image, transparent_color: Array) -> Image:
 	# 检查并更改图像格式为RGBA8以支持alpha通道
 	if image.get_format() != Image.FORMAT_RGBA8:
 		image.convert(Image.FORMAT_RGBA8)
@@ -16,13 +16,16 @@ static func transparent_conversion_image(image: Image, transparent_color: Color)
 	for x in range(image.get_width()):
 		for y in range(image.get_height()):
 			var color = image.get_pixel(x, y)
-			if color.is_equal_approx(transparent_color):
-				color.a = 0
-				image.set_pixel(x, y, color)
+			# 遍历需要处理的Color数组，匹配则处理后跳出
+			for c in transparent_color:
+				if color.is_equal_approx(c):
+					color.a = 0
+					image.set_pixel(x, y, color)
+					break
 	return image
 
 # 重载transparent_conversion_image
-static func transparent_conversion_texture(texture: Texture, transparent_color: Color) -> ImageTexture:
+static func transparent_conversion_texture(texture: Texture, transparent_color: Array) -> ImageTexture:
 	var image: Image = texture.get_image()
 	transparent_conversion_image(image, transparent_color)
 	return ImageTexture.create_from_image(image)

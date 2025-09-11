@@ -9,12 +9,13 @@ static var CHARACTER_FRAME_SIZE: Vector2 = Vector2(48, 64)	# player单个精灵�
 const MAP_IMAGE_PATH = "./Assets/Tile/Map/"	# 地图资源文件的路径
 const CHARACTER_IMAGE_PATH = "./Assets/Tile/Player/"	# player资源文件的路径
 const DATA_PATH = "./Assets/Data/Json/"	# 导入数据文件，格式为json
+static var transparent_color: Array[Color] = []	# 资源文件需要过滤底色（视为透明）时设置
 static var setting_change_flag: bool = false
 
 func _init() -> void:
-	# TODO:覆盖配置
+	# TODO:覆盖配置，该配置应该由Config文件夹中读取，现在只是临时写在这里
 	# ⚠️⚠️⚠️由于引擎限制该功能并不完善，建议随override.cfg文件一同拷贝到根目录⚠️⚠️⚠️
-	#WIDTH_BLOCK = 37
+	transparent_color.append(Color())
 	pass
 
 #func _ready() -> void:
