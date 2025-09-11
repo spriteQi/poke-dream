@@ -15,7 +15,7 @@ static func load_source(source_code, source_type: String = "png") -> SpriteFrame
 	if source_code in sprites_temp:
 		return sprites_temp[source_code]
 	var sprites = SpriteFrames.new()
-	var texture: Resource = load(Init.CHARACTER_IMAGE_PATH + source_code + "." + source_type)
+	var texture: Resource = Util.dynamic_load_resource(Init.CHARACTER_IMAGE_PATH + source_code + "." + source_type)
 	if texture == null:
 		printerr("错误: 未读取到character纹理:", source_code)
 		return

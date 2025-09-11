@@ -17,7 +17,7 @@ static func load_source(source_code, source_type: String = "png") -> int:
 	if source_code in source_temp:
 		return source_temp[source_code]["source_id"]
 	# 加载纹理
-	var texture: Resource = load(Init.MAP_IMAGE_PATH + source_code + "." + source_type)
+	var texture: Resource = Util.dynamic_load_resource(Init.MAP_IMAGE_PATH + source_code + "." + source_type)
 	if texture == null:
 		printerr("错误: 未读取到map纹理:", source_code)
 		return -1

@@ -6,9 +6,9 @@ static var MAP_TILE_SIZE: int = 32	# 地图tile单个块长宽像素（地图块
 static var WIDTH_BLOCK: int = 15	# 单屏内宽的块数量（应该为奇数）
 static var HEIGHT_BLOCK: int = 11	# 单屏内高的块数量（应该为奇数）
 static var CHARACTER_FRAME_SIZE: Vector2 = Vector2(48, 64)	# player单个精灵帧的尺寸
-const MAP_IMAGE_PATH = "res://Assets/Tile/Map/"	# 地图资源文件的路径
-const CHARACTER_IMAGE_PATH = "res://Assets/Tile/Player/"	# player资源文件的路径
-const DATA_PATH = "res://Assets/Data/Json/"	# 导入数据文件，格式为json
+const MAP_IMAGE_PATH = "./Assets/Tile/Map/"	# 地图资源文件的路径
+const CHARACTER_IMAGE_PATH = "./Assets/Tile/Player/"	# player资源文件的路径
+const DATA_PATH = "./Assets/Data/Json/"	# 导入数据文件，格式为json
 static var setting_change_flag: bool = false
 
 func _init() -> void:

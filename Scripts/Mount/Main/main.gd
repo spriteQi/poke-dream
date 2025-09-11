@@ -2,7 +2,6 @@
 extends Node2D
 
 var game_scene_path: String = "res://Scenes/game.tscn"
-@export var start_btn: Button
 
 func _ready() -> void:
 	# 配置修改提示 ⚠️由于引擎限制该功能并不完善，建议随override.cfg文件一同拷贝到根目录⚠️

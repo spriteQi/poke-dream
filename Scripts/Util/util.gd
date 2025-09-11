@@ -26,3 +26,18 @@ static func transparent_conversion_texture(texture: Texture, transparent_color: 
 	var image: Image = texture.get_image()
 	transparent_conversion_image(image, transparent_color)
 	return ImageTexture.create_from_image(image)
+
+# 用于打包后也能动态读取资源文件
+static func dynamic_load_resource(path: String) -> Resource:
+	# 检查文件是否存在
+	if not FileAccess.file_exists(path):
+		push_error("PNG文件不存在: " + path)
+		return null
+	# 加载图像
+	var image = Image.load_from_file(path)
+	if image == null:
+		push_error("无法加载PNG图像: " + path)
+		return null
+	# 创建纹理
+	var texture = ImageTexture.create_from_image(image)
+	return texture

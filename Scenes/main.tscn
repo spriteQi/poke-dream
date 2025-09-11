@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dm3wd50t7l3ip" path="res://Scripts/Mount/Main/main.gd" id="1_jjgbg"]
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("start_btn")]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_jjgbg")
-start_btn = NodePath("StartBtn")
 
 [node name="StartBtn" type="Button" parent="."]
 offset_right = 80.0
