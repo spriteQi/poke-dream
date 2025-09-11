@@ -1,8 +1,7 @@
 # 渲染底板节点，继承自MapRender包含一些TileMapLayer动态加载的公共方法
 extends MapRender
 
-func draw_layer(test: String) -> void:
-	print(test)
+func draw_layer(r = null) -> void:
 	clear()
 	#for x in range(8):
 		#for y in range(32):

@@ -2,6 +2,10 @@
 extends Node
 class_name Util
 
+# 节点居中
+static func node_center(node: Node) -> void:
+	node.position = (Vector2(node.get_window().size) - node.size) / 2
+
 # 将纹理的指定颜色视为底色，转换成透明色
 static func transparent_conversion_image(image: Image, transparent_color: Color) -> Image:
 	# 检查并更改图像格式为RGBA8以支持alpha通道
