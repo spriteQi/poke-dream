@@ -8,8 +8,8 @@ static var source_temp: Dictionary = Dictionary()	# ｛source_code: ｛source_id
 func _init() -> void:
 	set_tile_set(tiles)	# TileMapLayer节点TileSet属性的setter方法
 
-# 加载资源，子类不需要直接调用该方法，会由draw_tile方法调用，返回source_id
-# source_code是资源的文件编号（文件名），加载后会生成source_id，gds不支持声明int|str所以不指定类型（也不支持重载！）
+## 加载资源，子类不需要直接调用该方法，会由draw_tile方法调用，返回source_id
+## source_code是资源的文件编号（文件名），加载后会生成source_id，gds不支持声明int|str所以不指定类型（也不支持重载！）
 static func load_source(source_code, source_type: String = "png") -> int:
 	if source_code is int:
 		source_code = str(source_code)
@@ -50,8 +50,8 @@ static func load_source(source_code, source_type: String = "png") -> int:
 	print("成功创建 ", columns * rows, " 个瓦片，源ID: ", source_id)
 	return source_id
 
-# 绘制tile方法，会调用load_source加载资源
-# tile_serial为tile块序号，从左至右从上至下，从0开始
+## 绘制tile方法，会调用load_source加载资源
+## tile_serial为tile块序号，从左至右从上至下，从0开始
 func draw_tile(draw_pos_x: int, draw_pos_y: int, source_code, tile_serial: int) -> void:
 	if source_code is int:
 		source_code = str(source_code)

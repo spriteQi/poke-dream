@@ -39,7 +39,8 @@ static func load_source(source_code, source_type: String = "png") -> SpriteFrame
 	sprites_temp[source_code] = sprites
 	return sprites
 
-# 设置角色的实际坐标左上角是(0, 0)
+## 设置角色的实际坐标左上角是(0, 0)，X轴朝→增大，Y轴朝↓增大
 func set_character_pos(pos_x, pos_y) -> void:
+	
 	position = Vector2(pos_x * Init.MAP_TILE_SIZE, pos_y * Init.MAP_TILE_SIZE)
 	return
