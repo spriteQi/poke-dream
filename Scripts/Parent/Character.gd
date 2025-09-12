@@ -4,6 +4,8 @@ class_name Character
 
 static var sprites_temp: Dictionary = Dictionary()	# ｛source_code: SpriteFrames｝
 enum Direction { UP, RIGHT, DOWN, LEFT }
+var dir: Direction = Direction.DOWN
+
 
 func _init() -> void:
 	set_offset(Vector2(0, -Init.MAP_TILE_SIZE / 2.0))	# 偏移对齐窗口
@@ -39,8 +41,17 @@ static func load_source(source_code, source_type: String = "png") -> SpriteFrame
 	sprites_temp[source_code] = sprites
 	return sprites
 
-## 设置角色的实际坐标左上角是(0, 0)，X轴朝→增大，Y轴朝↓增大
+## 设置角色的实际坐标左上角是(0, 0)，X轴朝→增大，Y轴朝↓增大，一般只有初始化一个角色才会使用
 func set_character_pos(pos_x, pos_y) -> void:
-	
 	position = Vector2(pos_x * Init.MAP_TILE_SIZE, pos_y * Init.MAP_TILE_SIZE)
 	return
+
+## 设置角色面向，自己一般是初始化才会直接调用，因为是直接改变没有动作，其他个体没有限制
+func set_character_dir(d: StringName) -> void:
+	dir = Direction.get(d)
+	set_animation(d)
+	set_frame(1)	# 切换了面向需要重新定位到帧（1是站立）
+
+## 角色移动
+func character_move(d: StringName) -> void:
+	pass
