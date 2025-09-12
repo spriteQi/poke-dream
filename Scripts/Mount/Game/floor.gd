@@ -3,6 +3,6 @@ extends MapRender
 
 func draw_layer(r = null) -> void:
 	clear()
-	for x in range(10):
-		for y in range(10):
-			draw_tile(x, y, 1, 0)
+	for x in range(20):
+		for y in range(20):
+			draw_tile(x - 10, y - 10, 1, 0)

@@ -6,7 +6,7 @@ static var sprites_temp: Dictionary = Dictionary()	# ｛source_code: SpriteFrame
 enum Direction { UP, RIGHT, DOWN, LEFT }
 
 func _init() -> void:
-	set_offset(Vector2(Init.MAP_TILE_SIZE / 2.0, 0))	# 偏移对齐tile
+	set_offset(Vector2(0, -Init.MAP_TILE_SIZE / 2.0))	# 偏移对齐窗口
 
 # 加载资源，会返回一个SpriteFrames，可以复用
 # 继承该方法的类实例化后直接set_sprite_frames(load_source())初始化或改变主题

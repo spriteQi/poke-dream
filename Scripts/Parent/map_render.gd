@@ -6,6 +6,7 @@ static var tiles: TileSet = TileSet.new()	# 设置为静态可以让所有的渲
 static var source_temp: Dictionary = Dictionary()	# ｛source_code: ｛source_id， columns, rows｝｝
 
 func _init() -> void:
+	position = Vector2(-Init.MAP_TILE_SIZE / 2.0, -Init.MAP_TILE_SIZE / 2.0)	# 偏移对齐窗口
 	set_tile_set(tiles)	# TileMapLayer节点TileSet属性的setter方法
 
 ## 加载资源，子类不需要直接调用该方法，会由draw_tile方法调用，返回source_id
