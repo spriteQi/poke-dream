@@ -9,6 +9,7 @@ func _ready() -> void:
 	set_sprite_frames(load_source(0))
 	set_character_dir("RIGHT")
 	set_frame(1)
+	speed = 10
 	state = PlayerState.stand
 
 @warning_ignore("unused_parameter")
@@ -24,23 +25,22 @@ func _physics_process(delta: float) -> void:
 ## 角色尝试移动
 func try_move(d: StringName) -> void:
 	if Direction.get(d) == dir:	# 移动方向与当前面向相同，尝试移动一格（前提是前一格是可达位置）
-		var target_pos: Vector2
+		print("pos:", pos)
 		match Direction.get(d):
-			Direction.UP: target_pos = pos + Vector2i(0, -1)
-			Direction.RIGHT: target_pos = pos + Vector2i(1, 0)
-			Direction.DOWN: target_pos = pos + Vector2i(0, 1)
-			Direction.LEFT: target_pos = pos + Vector2i(-1, 0)
-		print("pos:", pos, " target_pos:", target_pos / Init.MAP_TILE_SIZE)
+			Direction.UP: pos += Vector2i(0, -1)
+			Direction.RIGHT: pos += Vector2i(1, 0)
+			Direction.DOWN: pos += Vector2i(0, 1)
+			Direction.LEFT: pos += Vector2i(-1, 0)
+		print("target_pos:", pos)
 		if true:	# TODO:判断target_pos地块可移动性
 			state = PlayerState.move	# 修改状态，锁定输入
 			var tween_move = create_tween()
 			var duration = 0.25 / speed
 			tween_move.tween_callback(show_move)	# 伸出脚
 			tween_move.tween_method(move_show_end, 0.0, 1.0, duration)	# 回调结束表现
-			tween_move.parallel().tween_property(self, "position", pos_to_position(target_pos), duration)	# 移动补间动画
+			tween_move.parallel().tween_property(self, "position", pos_to_position(pos), duration)	# 移动补间动画
 			tween_move.finished.connect(func():	# 倒计时结束回调
 				state = PlayerState.stand	# 解锁输入
-				print("pos:", position / Init.MAP_TILE_SIZE)
 		)
 		else:	# TODO:不可通行，只播放移动帧，不移动，不锁定，接受输入（非同向）会立刻打断
 			pass
