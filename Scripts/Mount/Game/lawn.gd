@@ -1,4 +1,4 @@
-# 渲染草地节点，继承自MapRender包含一些TileMapLayer动态加载的公共方法
+# 渲染草地层节点，也包括树等组件，继承自MapRender，渲染顺序在floor之上，build之下
 extends MapRender
 
 func draw_layer(r = null) -> void:

@@ -1,4 +1,4 @@
-# 渲染底板节点，继承自MapRender包含一些TileMapLayer动态加载的公共方法
+# 渲染底板节点,该层不参与碰撞，继承自MapRender，渲染顺序在最下层
 extends MapRender
 
 func draw_layer(r = null) -> void:

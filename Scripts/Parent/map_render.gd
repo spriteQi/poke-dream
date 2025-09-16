@@ -1,6 +1,6 @@
 # 渲染地图的TileMapLayer节点脚本父类，封装加载资源和渲染的公共方法
-extends TileMapLayer
-class_name MapRender
+@abstract
+class_name MapRender extends TileMapLayer
 
 static var tiles: TileSet = TileSet.new()	# 设置为静态可以让所有的渲染图层共享同一个TileSet
 static var source_temp: Dictionary = Dictionary()	# ｛source_code: ｛source_id， columns, rows｝｝
