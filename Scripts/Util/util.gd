@@ -1,6 +1,5 @@
 # 该类是工具类，用于编写会复用的静态方法
-extends Node
-class_name Util
+class_name Util extends RefCounted
 
 ## 节点居中
 static func node_center(node: Node) -> void:

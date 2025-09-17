@@ -9,7 +9,6 @@ func _ready() -> void:
 	set_sprite_frames(load_source(0))
 	set_character_dir("RIGHT")
 	set_frame(1)
-	speed = 10
 	state = PlayerState.stand
 
 @warning_ignore("unused_parameter")
